@@ -2,6 +2,8 @@ package org.example.view;
 import org.example.model.IOperation;
 import org.reflections.Reflections;
 import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import org.example.controller.*;
 
@@ -18,6 +20,8 @@ public class Menu {
 
             // Busca todas as classes que implementam a interface IOperation
             Set<Class<? extends IOperation>> classes = reflections.getSubTypesOf(IOperation.class);
+            List<Class<? extends IOperation>> listaDeClasses = new ArrayList<>(classes);
+
             int iterator = 1;
             // Imprime o nome das classes que implementam a interface
             for (Class<? extends IOperation> clazz : classes) {
@@ -28,52 +32,13 @@ public class Menu {
             System.out.print("Escolha uma opção: ");
 
             opcao = scanner.nextInt();
-
-            switch (opcao) {
-                case 1:
-                    System.out.println("Você escolheu Somar.");   
-                    scanner = new Scanner(System.in);
-                    System.out.println("Digite o primeiro valor: ");
-                    a = scanner.nextDouble();
-                    System.out.println("Digite o segundo valor: ");
-                    b = scanner.nextDouble();
-                    System.out.println("Resultado: " + Controlador.calcular("soma", a, b));
-                    break;
-
-                case 2:
-                    System.out.println("Você escolheu Subtrair.");
-                    scanner = new Scanner(System.in);
-                    System.out.println("Digite o primeiro valor: ");
-                    a = scanner.nextDouble();
-                    System.out.println("Digite o segundo valor: ");
-                    b = scanner.nextDouble();
-                    System.out.println("Resultado: " + Controlador.calcular("subtracao", a, b));
-                    break;
-                case 3:
-                    System.out.println("Você escolheu Multiplicar.");
-                    scanner = new Scanner(System.in);
-                    System.out.println("Digite o primeiro valor: ");
-                    a = scanner.nextDouble();
-                    System.out.println("Digite o segundo valor: ");
-                    b = scanner.nextDouble();
-                    System.out.println("Resultado: " + Controlador.calcular("multiplicacao", a, b));
-                    break;
-                case 4:
-                    System.out.println("Você escolheu Dividir.");
-                    scanner = new Scanner(System.in);
-                    System.out.println("Digite o primeiro valor: ");
-                    a = scanner.nextDouble();
-                    System.out.println("Digite o segundo valor: ");
-                    b = scanner.nextDouble();
-                    System.out.println("Resultado: " + Controlador.calcular("divisao", a, b));
-                    break;
-                case 0:
-                    System.out.println("Saindo...");
-                    break;
-                default:
-                    System.out.println("Opção inválida. Tente novamente.");
+            scanner = new Scanner(System.in);
+            System.out.println("Digite o primeiro valor: ");
+            a = scanner.nextDouble();
+            System.out.println("Digite o segundo valor: ");
+            b = scanner.nextDouble();
+            System.out.println("Resultado: " + Controlador.calcular(listaDeClasses.get(opcao-1).getSimpleName(), a, b));
             }
-        }
         scanner.close();
     }
 }

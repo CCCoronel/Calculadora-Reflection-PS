@@ -1,23 +1,16 @@
 package org.example.controller;
+import java.lang.reflect.InvocationTargetException;
+
 import org.example.model.*;;;
 public final class Controlador{
     public static double calcular(String operacao, double x, double y){
         IOperation op = null;
-        switch(operacao){
-            case "soma":
-                op = new Soma();
-                break;
-            case "subtracao":
-                op = new Subtracao();
-                break;
-            case "multiplicacao":
-                op = new Multiplicacao();
-                break;
-            case "divisao":
-                op = new Divisao();
-                break;
-            default:
-                throw new IllegalArgumentException("Operação inválida: " + operacao);
+        try {
+            op = (IOperation)Class.forName("org.example.model." + operacao).getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+                | NoSuchMethodException | SecurityException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return 0;
         }
         return op.calc(x, y);
     }
